@@ -1,7 +1,5 @@
-import { useEffect } from "react";
 import { useDispatch } from "react-redux";
-import { addOneAnecdote } from "../reducers/anecdoteReducer";
-import anecdoteService from "../services/anecdotes";
+import { createAnecdote } from "../reducers/anecdoteReducer";
 
 const AnecdoteForm = () => {
   const dispatch = useDispatch();
@@ -9,13 +7,7 @@ const AnecdoteForm = () => {
   const addAnecdote = (event) => {
     event.preventDefault();
     let content = event.target.anecdote.value;
-    console.log("adding new anecdote:", content);
-    console.log(anecdoteService);
-
-    anecdoteService.addOne(content).then((data) => {
-      console.log("received from server", data);
-      dispatch(addOneAnecdote(data));
-    });
+    dispatch(createAnecdote(content));
   };
 
   return (
