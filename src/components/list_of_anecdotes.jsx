@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { addVote, loadAnecdotes } from "../reducers/anecdoteReducer";
 import { addMessage } from "../reducers/notification_reducer";
-import anecdoteService from "../services/anecdotes.js";
+import anecdoteService from "../services/anecdotes";
 
 const ListOfAnecdotes = () => {
   const dispatch = useDispatch();

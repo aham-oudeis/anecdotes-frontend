@@ -24,7 +24,7 @@ const anecdoteSlice = createSlice({
     },
     addOneAnecdote(state, action) {
       let anecdote = action.payload;
-      return state.concat(asObject(anecdote));
+      return state.concat(anecdote);
     },
     loadAnecdotes(state, action) {
       let listOfAnecdotes = action.payload;
