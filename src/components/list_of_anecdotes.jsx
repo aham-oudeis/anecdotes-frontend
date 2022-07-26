@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { addVote, fetchAnecdotes } from "../reducers/anecdoteReducer";
-import { addMessage } from "../reducers/notification_reducer";
+import { upVote, fetchAnecdotes } from "../reducers/anecdoteReducer";
+import { setNotification } from "../reducers/notification_reducer";
 
 const ListOfAnecdotes = () => {
   const dispatch = useDispatch();
@@ -15,11 +15,12 @@ const ListOfAnecdotes = () => {
     dispatch(fetchAnecdotes());
   }, [dispatch]);
 
-  const vote = ({ id, content }) => {
+  const vote = (anecdote) => {
+    const { id, content } = anecdote;
     console.log("vote", id);
     console.log({ type: "VOTE", id });
-    dispatch(addVote(id));
-    dispatch(addMessage(`You voted: ${content}`));
+    dispatch(upVote(anecdote));
+    dispatch(setNotification(`You voted: ${content}`, 10));
   };
 
   return (

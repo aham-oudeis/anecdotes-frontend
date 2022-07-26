@@ -5,35 +5,43 @@ const anecdoteSlice = createSlice({
   name: "anecdotes",
   initialState: [],
   reducers: {
-    addVote(state, action) {
-      let id = action.payload;
-      state.forEach((anecdote) => {
-        if (anecdote.id === id) {
-          anecdote.votes += 1;
-        }
-      });
+    update(state, action) {
+      let toUpdate = action.payload;
+      let id = toUpdate.id;
+
+      let index = state.findIndex((anecdote) => anecdote.id === id);
+
+      state[index] = toUpdate;
     },
-    addOneAnecdote(state, action) {
+    create(state, action) {
       let anecdote = action.payload;
       return state.concat(anecdote);
     },
-    loadAnecdotes(state, action) {
+    loadAll(state, action) {
       let listOfAnecdotes = action.payload;
       return listOfAnecdotes;
     },
   },
 });
 
-export const { addVote, addOneAnecdote, loadAnecdotes } = anecdoteSlice.actions;
+const { create, loadAll, update } = anecdoteSlice.actions;
 
 export const createAnecdote = (content) => async (dispatch) => {
   const newAnecdote = await anecdoteService.addOne(content);
-  dispatch(addOneAnecdote(newAnecdote));
+  console.log("the new updated anecdote", newAnecdote);
+  dispatch(create(newAnecdote));
 };
 
 export const fetchAnecdotes = () => async (dispatch) => {
-  const allAnecdotes = await anecdoteService.getAll();
-  dispatch(loadAnecdotes(allAnecdotes));
+  const listOfAnecdotes = await anecdoteService.getAll();
+  dispatch(loadAll(listOfAnecdotes));
+};
+
+export const upVote = (anecdote) => async (dispatch) => {
+  const upVoted = { ...anecdote, votes: anecdote.votes + 1 };
+  const updateAnecdote = await anecdoteService.addVote(upVoted);
+  console.log("returned by put request", updateAnecdote);
+  dispatch(update(upVoted));
 };
 
 export default anecdoteSlice.reducer;

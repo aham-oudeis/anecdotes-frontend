@@ -22,9 +22,15 @@ const addOne = async (content) => {
   return await axios.post(baseUrl, data).then((res) => res.data);
 };
 
+const addVote = async (anecdote) => {
+  const response = await axios.put(`${baseUrl}/${anecdote.id}`, anecdote);
+  return response.data;
+};
+
 const anecdoteServer = {
   getAll,
   addOne,
+  addVote,
 };
 
 export default anecdoteServer;
