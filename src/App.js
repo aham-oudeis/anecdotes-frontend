@@ -4,7 +4,6 @@ import { useSelector, useDispatch } from "react-redux";
 import AnecdoteForm from "./components/anecdote_form";
 import ListOfAnecdotes from "./components/list_of_anecdotes";
 import Notification from "./components/Notification";
-import { setNotification } from "./reducers/notification_reducer";
 import Anecdote from "./components/anecdote";
 import Home from "./components/home";
 import { fetchAnecdotes } from "./reducers/anecdoteReducer";
@@ -27,34 +26,40 @@ const App = () => {
   const hidden = messages === "";
 
   const selected = match
-    ? listOfAnecdotes.find((anecdote) => anecdote.id === match.params.id)
+    ? listOfAnecdotes.find(
+        (anecdote) => anecdote.note_id === Number(match.params.id)
+      )
     : {};
 
   const style = {
-    padding: 5,
-    margin: 5,
-    bordeRadius: 5,
+    padding: 50,
+    margin: 50,
+    borderRadius: 5,
   };
 
   return (
-    <div>
-      <h2>Software Anecdotes</h2>
+    <div className="container">
+      <header style={style}>
+        <h2>Anecdotes</h2>
+      </header>
       <div>
         <Notification hidden={hidden} />
       </div>
-      <div style={style}>
-        <Link style={style} to="/">
-          Home
-        </Link>
-        <Link style={style} to="/anecdotes">
-          Anecdotes
-        </Link>
-        <Link style={style} to="/new">
-          Create New
-        </Link>
-        <Link style={style} to="/about">
-          About
-        </Link>
+      <div>
+        <ul>
+          <Link style={style} to="/">
+            Home
+          </Link>
+          <Link style={style} to="/anecdotes">
+            Anecdotes
+          </Link>
+          <Link style={style} to="/new">
+            Create New
+          </Link>
+          <Link style={style} to="/about">
+            About
+          </Link>
+        </ul>
       </div>
       <Routes>
         <Route
@@ -65,7 +70,9 @@ const App = () => {
         <Route path="/new" element={<AnecdoteForm />} />
         <Route path="/" element={<Home list={listOfAnecdotes} />} />
       </Routes>
-      <footer style={style}>Anecdote App for Full Stack Open Course</footer>
+      <footer style={style}>
+        Anecdote App for Full Stack Open Course: by gagan sapkota
+      </footer>
     </div>
   );
 };

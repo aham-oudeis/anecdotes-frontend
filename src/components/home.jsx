@@ -1,14 +1,15 @@
 import { Link } from "react-router-dom";
 
 const Home = ({ list }) => {
+  console.log(list);
   const style = {
-    padding: 5,
-    margin: 5,
+    padding: 10,
+    margin: 80,
   };
 
-  const snippets = list.map(({ content, id }) => (
-    <li key={id} style={style}>
-      <Link to={`/anecdotes/${id}`}>
+  const snippets = list.map(({ content, note_id }) => (
+    <li key={note_id} style={style}>
+      <Link to={`/anecdotes/${note_id}`}>
         {content.split(" ").slice(0, 5).join(" ") + "...."}
       </Link>
     </li>

@@ -2,10 +2,14 @@ import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { createAnecdote } from "../reducers/anecdoteReducer";
 import { setNotification } from "../reducers/notification_reducer";
+import { useField } from "../hooks/index.js";
 
 const AnecdoteForm = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const saying = useField("text");
+  const author = useField("text");
+  const source = useField("text");
 
   const addAnecdote = (event) => {
     event.preventDefault();
@@ -13,6 +17,11 @@ const AnecdoteForm = () => {
     dispatch(createAnecdote(content));
     dispatch(setNotification(`New note "${content}" created`, 5));
     navigate("/");
+  };
+
+  const resetValues = (event) => {
+    event.preventDefault();
+    [saying, author, source].forEach((input) => input.reset());
   };
 
   const style = {
@@ -25,10 +34,38 @@ const AnecdoteForm = () => {
     <>
       <h2>Create new</h2>
       <form onSubmit={addAnecdote}>
-        <div>
-          <input name="anecdote" />
+        <div style={style}>
+          <label>
+            What they said:{" "}
+            <textarea
+              style={{ width: 550, padding: 25 }}
+              name="anecdote"
+              {...saying}
+            />
+          </label>
         </div>
-        <button style={style}>create</button>
+        <div style={style}>
+          <label>
+            Who said it:
+            <input
+              style={{ margin: 25, width: 300 }}
+              name="author"
+              {...author}
+            />
+          </label>
+        </div>
+        <div style={style}></div>
+        <button style={style} className="btn btn-primary btn-lg" type="submit">
+          create
+        </button>
+        <button
+          style={style}
+          className="btn btn-primary btn-lg"
+          type="button"
+          onClick={resetValues}
+        >
+          reset
+        </button>
       </form>
     </>
   );
